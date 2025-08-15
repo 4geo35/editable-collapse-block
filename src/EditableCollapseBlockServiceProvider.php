@@ -5,6 +5,8 @@ namespace GIS\EditableCollapseBlock;
 use GIS\EditableBlocks\Traits\ExpandBlocksTrait;
 use GIS\Fileable\Traits\ExpandTemplatesTrait;
 use Illuminate\Support\ServiceProvider;
+use GIS\EditableCollapseBlock\Livewire\Admin\Types\CollapseTextWire;
+use Livewire\Livewire;
 
 class EditableCollapseBlockServiceProvider extends ServiceProvider
 {
@@ -23,11 +25,16 @@ class EditableCollapseBlockServiceProvider extends ServiceProvider
         $this->expandConfiguration();
     }
 
-    protected function addLivewireComponents()
+    protected function addLivewireComponents(): void
     {
+        $component = config("editable-collapse-blocks.customCollapseTextComponent");
+        Livewire::component(
+            "ecb-collapse-text",
+            $component ?? CollapseTextWire::class
+        );
     }
 
-    protected function expandConfiguration()
+    protected function expandConfiguration(): void
     {
         $ecb = app()->config["editable-collapse-block"];
         $this->expandTemplates($ecb);
